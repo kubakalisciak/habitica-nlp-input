@@ -4,6 +4,8 @@
 import requests
 import json
 import sys
+import datetime
+from dateparser.search import search_dates
 
 def check_connection():
     return requests.get('https://habitica.com/api/v3/status').json()['data']['status'] == 'up'
@@ -23,9 +25,20 @@ def add_task(user_id, api_token, task):
         if response.json()['success']:
             print(f"task {response.json()['data']['id']} created succesfully")
         else:
-            print(f'failed to create task')
+            print("failed to create task")
     else:
-        print('habitica API unavailable')
+        print("habitica API unavailable")
 
 
-add_task(sys.argv[1], sys.argv[2], input(" >>> "))
+def process_input(text):
+    pass
+
+
+def extract_date(text):
+    return search_dates(text)
+    # return only the date in the iso format
+    # remove the date keyword from the text and return the new text
+
+
+print(extract_date(input(" >>> ")))
+# add_task(sys.argv[1], sys.argv[2], input(" >>> "))

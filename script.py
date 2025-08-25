@@ -13,14 +13,15 @@ def check_connection():
 
 def add_task(user_id, api_token, task):
     if check_connection():
+        processed_data = process_input(task)
         endpoint = 'https://habitica.com/api/v3/tasks/user'
         headers = {'x-api-user': user_id,
                 'x-api-key': api_token,
                 'Content-Type': 'application/json',
                 'x-client': f'{user_id}-nlpInput'}
-        payload = {'text': task,
+        payload = {'text': processed_data['text'],
                 'type': 'todo',
-                'date': ''}
+                'date': processed_data['date']}
         response = requests.post(endpoint, headers=headers, json=payload)
         print(json.dumps(response.json(), indent=4))
         if response.json()['success']:
@@ -46,5 +47,4 @@ def extract_date(text):
         return {'date': date, 'text': new_text}
 
 
-# add_task(sys.argv[1], sys.argv[2], input(" >>> "))
-print(process_input(input(" >>> ")))
+add_task(sys.argv[1], sys.argv[2], input(" >>> "))

@@ -19,9 +19,7 @@ def add_task(user_id, api_token, task):
                 'x-api-key': api_token,
                 'Content-Type': 'application/json',
                 'x-client': f'{user_id}-nlpInput'}
-        payload = {'text': processed_data['text'],
-                'type': 'todo',
-                'date': processed_data['date']}
+        
         response = requests.post(endpoint, headers=headers, json=payload)
         print(json.dumps(response.json(), indent=4))
         if response.json()['success']:
@@ -46,5 +44,15 @@ def extract_date(text):
         new_text = text.replace(last_result_tuple[0], '')
         return {'date': date, 'text': new_text}
 
+
+def extract_task_type(text):
+    if '$' in text:
+        return 'reward'
+    elif 'habit' in text:
+        return 'habit'
+    elif 'every' in text or 'daily' in text or 'weekly' in text or 'monthly' in text or 'yearly' in text:
+        return 'daily'
+    else:
+        return 'todo'
 
 add_task(sys.argv[1], sys.argv[2], input(" >>> "))

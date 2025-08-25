@@ -19,7 +19,8 @@ def add_task(user_id, api_token, task):
                 'Content-Type': 'application/json',
                 'x-client': f'{user_id}-nlpInput'}
         payload = {'text': task,
-                'type': 'todo'}
+                'type': 'todo',
+                'date': ''}
         response = requests.post(endpoint, headers=headers, json=payload)
         print(json.dumps(response.json(), indent=4))
         if response.json()['success']:
@@ -31,14 +32,19 @@ def add_task(user_id, api_token, task):
 
 
 def process_input(text):
-    pass
+    date_parse_result = extract_date(text)
+    return {'text': date_parse_result['text'], 'date': date_parse_result['date']}
 
 
 def extract_date(text):
-    return search_dates(text)
-    # return only the date in the iso format
-    # remove the date keyword from the text and return the new text
+    results = search_dates(text)
+    if not results: return {'date': '', 'text': text}
+    else:
+        last_result_tuple = results[-1]
+        date = last_result_tuple[1].strftime('%Y-%m-%d')
+        new_text = text.replace(last_result_tuple[0], '')
+        return {'date': date, 'text': new_text}
 
 
-print(extract_date(input(" >>> ")))
 # add_task(sys.argv[1], sys.argv[2], input(" >>> "))
+print(process_input(input(" >>> ")))

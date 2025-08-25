@@ -108,39 +108,15 @@ def extract_difficulty(text):
     else: # default to easy
         return ['1', text]
 def extract_frequency(text):
-    """frequency
-String 	
-
-Values "weekly" and "monthly" enable use of the "repeat" field. All frequency values enable use of the "everyX" field. Value "monthly" enables use of the "weeksOfMonth" and "daysOfMonth" fields. Frequency is only valid for type "daily".
-
-Default value: weekly
-
-Allowed values: "daily", "weekly", "monthly", "yearly"
-repeat
-String 	
-
-List of objects for days of the week, Days that are true will be repeated upon. Only valid for type "daily". Any days not specified will be marked as true. Days are: su, m, t, w, th, f, s. Value of frequency must be "weekly". For example, to skip repeats on Mon and Fri: "repeat":{"f":false,"m":false}
-
-Default value: true
-everyX
-Number 	
-
-Value of frequency must be "daily", the number of days until this daily task is available again.
-
-Default value: 1
-streak
-Number 	
-
-Number of days that the task has consecutively been checked off. Only valid for type "daily"
-
-Default value: 0
-daysOfMonth 	Integer[] 	
-
-Array of integers. Only valid for type "daily"
-weeksOfMonth 	Integer[] 	
-
-Array of integers. Only valid for type "daily" """
-    pass
-
-
+    # daily category
+    if 'daily' in text:
+        return {'frequency': 'daily', 'everyX': 1, 'text': text.replace('daily', '')}
+    if 'every day' in text:
+        return {'frequency': 'daily', 'everyX': 1, 'text': text.replace('every day', '')}
+    if 'everyday' in text:
+        return {'frequency': 'daily', 'everyX': 1, 'text': text.replace('everyday', '')}
+    if r'every \d+ days' in text:
+        return {'frequency': 'daily', 'everyX': int(re.search(r'every (\d+) days', text).group(1)), 'text': text.replace(re.search(r'every (\d+) days', text).group(0), '')}
+    
+    
 add_task(sys.argv[1], sys.argv[2], input(" >>> "))

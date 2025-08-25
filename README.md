@@ -12,7 +12,7 @@ For anyone who wants fast task capture combined with Habitica’s gamified task 
 ## Roadmap
 - [x] Connect to Habitica API
 - [x] Add tasks (without NLP)
-- [ ] Process due dates
+- [x] Process due dates
 - [ ] Distinguish between task types
 - [ ] Process task difficulties
 - [ ] Make a custom API

@@ -60,7 +60,7 @@ def extract_task_type(text):
         return ['reward', text]
     elif 'habit' in text:
         return ['habit', text.replace('habit', '')]
-    elif 'every' in text or 'daily' in text or 'weekly' in text or 'monthly' in text or 'yearly' in text:
+    elif 'every' in text or 'daily' in text or 'weekly' in text or 'monthly' in text:
         return 'daily'
     else:
         return 'todo'
@@ -76,6 +76,7 @@ def extract_habit_up_down(text):
         return_content['down'] = True
     else:
         return_content['down'] = False
+
     return_content['text'] = text.replace('up', '').replace('down', '').replace('+', '').replace('-', '')
     return return_content
 
@@ -118,5 +119,100 @@ def extract_frequency(text):
     if r'every \d+ days' in text:
         return {'frequency': 'daily', 'everyX': int(re.search(r'every (\d+) days', text).group(1)), 'text': text.replace(re.search(r'every (\d+) days', text).group(0), '')}
     
+    # weekly category
+    if 'weekly' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('weekly', '')}
+    if 'every week' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every week', '')}
+    if r'every \d+ days' in text:
+        return {'frequency': 'weekly', 'everyX': int(re.search(r'every (\d+) days', text).group(1)), 'text': text.replace(re.search(r'every (\d+) days', text).group(0), '')}
+
+    # weekday category
+    if 'every monday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every monday', ''), 'repeat':{'m':True, 't':False, 'w':False, 'th':False, 'f':False, 's':False, 'su':False}}
+    if 'every tuesday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every tuesday', ''), 'repeat':{'m':False, 't':True, 'w':False, 'th':False, 'f':False, 's':False, 'su':False}}
+    if 'every wednesday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every wednesday', ''), 'repeat':{'m':False, 't':False, 'w':True, 'th':False, 'f':False, 's':False, 'su':False}}
+    if 'every thursday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every thursday', ''), 'repeat':{'m':False, 't':False, 'w':False, 'th':True, 'f':False, 's':False, 'su':False}}
+    if 'every friday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every friday', ''), 'repeat':{'m':False, 't':False, 'w':False, 'th':False, 'f':True, 's':False, 'su':False}}
+    if 'every saturday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every saturday', ''), 'repeat':{'m':False, 't':False, 'w':False, 'th':False, 'f':False, 's':True, 'su':False}}
+    if 'every sunday' in text:
+        return {'frequency': 'weekly', 'everyX': 1, 'text': text.replace('every sunday', ''), 'repeat':{'m':False, 't':False, 'w':False, 'th':False, 'f':False, 's':False, 'su':True}}
+
+    # monthly category
+    if 'monthly' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('monthly', '')}
+    if 'every month' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every month', '')}
+    if r'every \d+ months' in text:
+        return {'frequency': 'monthly', 'everyX': int(re.search(r'every (\d+) months', text).group(1)), 'text': text.replace(re.search(r'every (\d+) months', text).group(0), '')}
     
+    # month day category
+    if 'every 1st' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 1st', ''), 'daysOfMonth': [1]}
+    if 'every 2nd' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 2nd', ''), 'daysOfMonth': [2]}
+    if 'every 3rd' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 3rd', ''), 'daysOfMonth': [3]}
+    if 'every 4th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 4th', ''), 'daysOfMonth': [4]}
+    if 'every 5th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 5th', ''), 'daysOfMonth': [5]}
+    if 'every 6th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 6th', ''), 'daysOfMonth': [6]}
+    if 'every 7th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 7th', ''), 'daysOfMonth': [7]}
+    if 'every 8th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 8th', ''), 'daysOfMonth': [8]}
+    if 'every 9th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 9th', ''), 'daysOfMonth': [9]}
+    if 'every 10th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 10th', ''), 'daysOfMonth': [10]}
+    if 'every 11th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 11th', ''), 'daysOfMonth': [11]}
+    if 'every 12th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 12th', ''), 'daysOfMonth': [12]}
+    if 'every 13th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 13th', ''), 'daysOfMonth': [13]}
+    if 'every 14th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 14th', ''), 'daysOfMonth': [14]}
+    if 'every 15th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 15th', ''), 'daysOfMonth': [15]}
+    if 'every 16th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 16th', ''), 'daysOfMonth': [16]}
+    if 'every 17th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 17th', ''), 'daysOfMonth': [17]}
+    if 'every 18th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 18th', ''), 'daysOfMonth': [18]}
+    if 'every 19th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 19th', ''), 'daysOfMonth': [19]}
+    if 'every 20th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 20th', ''), 'daysOfMonth': [20]}
+    if 'every 21st' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 21st', ''), 'daysOfMonth': [21]}
+    if 'every 22nd' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 22nd', ''), 'daysOfMonth': [22]}
+    if 'every 23rd' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 23rd', ''), 'daysOfMonth': [23]}
+    if 'every 24th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 24th', ''), 'daysOfMonth': [24]}
+    if 'every 25th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 25th', ''), 'daysOfMonth': [25]}
+    if 'every 26th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 26th', ''), 'daysOfMonth': [26]}
+    if 'every 27th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 27th', ''), 'daysOfMonth': [27]}
+    if 'every 28th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 28th', ''), 'daysOfMonth': [28]}
+    if 'every 29th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 29th', ''), 'daysOfMonth': [29]}
+    if 'every 30th' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 30th', ''), 'daysOfMonth': [30]}
+    if 'every 31st' in text:
+        return {'frequency': 'monthly', 'everyX': 1, 'text': text.replace('every 31st', ''), 'daysOfMonth': [31]}
+
 add_task(sys.argv[1], sys.argv[2], input(" >>> "))

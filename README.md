@@ -15,7 +15,7 @@ For anyone who wants fast task capture combined with Habitica’s gamified task 
 - [x] Process due dates
 - [x] Distinguish between task types
 - [x] Process rewards' values
-- [ ] Process dailies' frequencies
+- [x] Process dailies' frequencies
 - [x] Process task difficulties
 - [x] Refactor request making
 - [ ] Make a custom API

@@ -1,26 +1,23 @@
-# api.py
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from script import add_task  # import your corrected code
+
+app = FastAPI(title="Habitica NLP Input API")
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from script import add_task  # import your corrected code
 
 app = FastAPI(title="Habitica Task API")
 
-
-# Define the structure of the POST request
-class TaskRequest(BaseModel):
-    user_id: str
-    api_token: str
-    task: str
-
-
 @app.post("/add_task")
-def create_task(req: TaskRequest):
+def create_task(user_id: str, api_token: str, task: str):
     """
     Endpoint to create a task in Habitica.
-    Expects JSON: { "user_id": "...", "api_token": "...", "task": "..." }
+    Expects query parameters: user_id, api_token, task
     """
     try:
-        result = add_task(req.user_id, req.api_token, req.task)
+        result = add_task(user_id, api_token, task)
         return result
     except Exception as e:
         # Return HTTP 500 if something goes wrong

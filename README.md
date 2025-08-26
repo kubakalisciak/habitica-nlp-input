@@ -39,9 +39,10 @@ uvicorn api:app --reload
 - [x] Process dailies' frequencies
 - [x] Process task difficulties
 - [x] Refactor request making
-- [ ] Make a custom API
+- [x] Make a custom API
 - [ ] Check for compliance with API usage guidelines
 - [ ] Hook up the backend to the frontend
 - [ ] Rewrite the README
+- [ ] Popularize the project
 ## License
 This project is licensed under the **MIT License**.

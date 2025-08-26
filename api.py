@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from script import add_task  # import your existing function
+from script import create_task_from_text as add_task  # import your existing function
 
 app = FastAPI(title="Habitica Task API")
 

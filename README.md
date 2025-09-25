@@ -44,6 +44,7 @@ uvicorn api:app --reload
 - [ ] Hook up the backend to the frontend
 - [ ] Check for compliance with API usage guidelines
 - [ ] Write the documentation
+- [ ] Host on my personal server
 - [ ] Popularize the project
 ## License
 This project is licensed under the **MIT License**.

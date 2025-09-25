@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from script import create_task_from_text as add_task  # import your existing function
 
-app = FastAPI(title="Habitica Task API")
+app = FastAPI(title="Habitica FastAdd API")
 
 # ----------------------------
 # POST with JSON body
@@ -12,6 +12,15 @@ class TaskRequest(BaseModel):
     api_token: str
     task: str
 
+app.mount("/static", StaticFiles(directory="site"), name="static")
+
+# Serve the main HTML page
+@app.get("/", response_class=HTMLResponse)
+async def read_index():
+    with open("site/index.html") as f:
+        return HTMLResponse(f.read())
+    
+
 @app.post("/add_task")
 def create_task(req: TaskRequest):
     """
@@ -19,24 +28,6 @@ def create_task(req: TaskRequest):
     """
     try:
         result = add_task(req.user_id, req.api_token, req.task)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-# ----------------------------
-# GET with query params
-# ----------------------------
-@app.get("/add_task")
-def create_task_get(user_id: str, api_token: str, task: str):
-    """
-    Create a Habitica task (GET with query params).
-
-    Example:
-    http://127.0.0.1:8000/add_task?user_id=...&api_token=...&task=...
-    """
-    try:
-        result = add_task(user_id, api_token, task)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

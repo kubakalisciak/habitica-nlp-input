@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="static/style.css">
 	<script src="script.js"></script>
-	<link rel="icon" type="image/x-icon" href="img/logo.png">
+	<link rel="icon" type="image/x-icon" href="static/img/logo.png">
+    <script src="static/script.js"></script>
 	<title>Habitica FastAdd</title>
 </head>
 <body>
 	<div class="header">
         <div class="panel">
-            <img src="img/logo.png" height="50px">
+            <img src="static/img/logo.png" height="50px">
             <h1>Habitica FastAdd</h1>
         </div>
         <div class="panel">
-            <img src="img/account.png">
+            <img src="static/img/account.png">
         </div>
     </div>
     <div class="content">
-        <form action="../add_task" method="post">
             <input type="text" id="task">
             <div class="buttons">
-                <input type="submit" id="submitBtn" value="Submit"></input>
-                <input type="reset" id="clearBtn" value="Clear"></input>
+                <button id="submitBtn" value="">Submit</button>
+                <button id="clearBtn" value="">Clear</button>
             </div>
         </form>
     </div>

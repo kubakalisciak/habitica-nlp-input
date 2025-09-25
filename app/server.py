@@ -1,5 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+
 from script import create_task_from_text as add_task  # import your existing function
 
 app = FastAPI(title="Habitica FastAdd API")
@@ -12,7 +15,7 @@ class TaskRequest(BaseModel):
     api_token: str
     task: str
 
-app.mount("/static", StaticFiles(directory="site"), name="static")
+app.mount("/static", StaticFiles(directory="site/static"), name="static")
 
 # Serve the main HTML page
 @app.get("/", response_class=HTMLResponse)

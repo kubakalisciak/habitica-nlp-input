@@ -1,50 +1,159 @@
-# habitica-nlp-input
+Here’s the full README in clean Markdown, ready to use:
+
+# habitica-fastadd
+A lightweight FastAPI service to quickly convert natural language tasks into Habitica tasks. Perfect for fast task capture using mobile automations or scripts, leveraging Habitica’s gamified task management.
+
 ---
-A lightweight system to quickly capture natural language (typed or spoken) tasks on a webapp, parse them into structured formats, and automatically add them to Habitica via its API.  
-For anyone who wants fast task capture combined with Habitica’s gamified task management.
 ## Features
-- Capture tasks in plain language (e.g., “Finish report tomorrow 5pm, high priority”)  
-- Parse input into structured fields (title, due date, difficulty, type)  
-- Automatically send tasks to Habitica via API  
-- Mobile-friendly quick input 
-## Setup
-### 1. Clone the repository
-```bash
-git clone <your-repo-url>
-cd habitica-nlp-input
+- Parse natural language tasks (e.g., “Water plants every morning at 8am”)
+- Automatically detect recurring schedules and due dates
+- Send tasks directly to Habitica via its API
+- Minimal, RESTful API suitable for mobile automations
+
+---
+## API Endpoints
+
+### **GET /status**
+Check if Habitica API is reachable.
+
+**Response:**
+```json
+{
+  "isUp": true
+}
+````
+
+**Errors:**
+
+- `503 Service Unavailable` if Habitica API is unreachable.
+
+---
+### **POST /add-task**
+
+Create a Habitica task from natural language.
+
+**Request JSON:**
+
+```json
+{
+  "user_id": "your-habitica-user-id",
+  "api_token": "your-habitica-api-token",
+  "text": "Drink water every morning at 8am"
+}
 ```
-### 2. Create a virtual environment (optional but recommended)
+
+**Response JSON (success):**
+
+```json
+{
+  "success": true,
+  "task": {
+    "id": "abc123",
+    "type": "habit",
+    "text": "Drink water",
+    "repeat": {...},
+    "dueDate": "2025-09-27T08:00:00.000Z"
+  }
+}
+```
+
+**Errors:**
+
+- `400 Bad Request` if Habitica rejects the task
+    
+- `500 Internal Server Error` for unexpected errors
+    
+
+---
+
+## Deployment
+
+### 1. Clone the repository
+
+```bash
+git clone git@github.com:kubakalisciak/habitica-fastadd.git
+cd habitica-fastadd
+```
+
+### 2. Set up the virtual environment
+
 ```bash
 python -m venv venv
-source venv/bin/activate     # Linux/macOS
-venv\Scripts\activate        # Windows
 ```
+
+Activate the virtual environment:
+
+- **macOS/Linux:** `source venv/bin/activate`
+    
+- **Windows (Command Prompt):** `venv\Scripts\activate`
+    
+- **Windows (PowerShell):** `.\venv\Scripts\Activate.ps1`
+    
+
 ### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
-### 4. Run the API locally
-```bash
-uvicorn api:app --reload
+
+### 4. Configure environment variables
+
+Create a `.env` file:
+
+```env
+HABITICA_USER_ID=your-user-id
+HABITICA_API_TOKEN=your-api-token
 ```
 
-- Server URL: http://127.0.0.1:8000
-- Interactive API docs: http://127.0.0.1:8000/docs
-## Roadmap
-- [x] Connect to Habitica API
-- [x] Add tasks (without NLP)
-- [x] Process due dates
-- [x] Distinguish between task types
-- [x] Process rewards' values
-- [x] Process dailies' frequencies
-- [x] Process task difficulties
-- [x] Refactor request making
-- [x] Make a custom API
-- [ ] Code the frontend
-- [ ] Hook up the backend to the frontend
-- [ ] Check for compliance with API usage guidelines
-- [ ] Write the documentation
-- [ ] Host on my personal server
-- [ ] Popularize the project
+> Optional if you provide `user_id` and `api_token` per request.
+
+### 5. Run the API
+
+```bash
+uvicorn app:app --reload
+```
+
+The API will be available at `http://127.0.0.1:8000`.  
+Swagger docs are available at `http://127.0.0.1:8000/docs`.
+
+---
+
+## Usage Example
+
+Using `curl`:
+
+```bash
+curl -X POST http://127.0.0.1:8000/add-task \
+     -H "Content-Type: application/json" \
+     -d '{"user_id": "your-id", "api_token": "your-token", "text": "Drink water every morning"}'
+```
+
+---
+
+## User Interfaces
+
+
+- No official frontend is provided.
+- Mobile automation tools like **MacroDroid** can easily POST tasks to this API (see my tutorial on [how to set it up](macrodroid.md))
+    
+
+---
+
+## Contributing
+
+1. Fork the repository
+    
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+    
+3. Commit your changes (`git commit -m 'Add some feature'`)
+    
+4. Push to the branch (`git push origin feature/your-feature`)
+    
+5. Open a pull request
+    
+
+---
+
 ## License
-This project is licensed under the **MIT License**.
+
+This project is licensed under the [MIT License](LICENSE)

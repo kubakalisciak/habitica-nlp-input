@@ -1,6 +1,6 @@
 fastapi
-uvicorn
+uvicorn[standard]
 requests
+python-dateutil
 dateparser
-pydantic
 recurrent

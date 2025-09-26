@@ -96,18 +96,7 @@ Activate the virtual environment:
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
-
-Create a `.env` file:
-
-```env
-HABITICA_USER_ID=your-user-id
-HABITICA_API_TOKEN=your-api-token
-```
-
-> Optional if you provide `user_id` and `api_token` per request.
-
-### 5. Run the API
+### 4. Run the API
 
 ```bash
 uvicorn app:app --reload

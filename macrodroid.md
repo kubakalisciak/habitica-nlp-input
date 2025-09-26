@@ -15,13 +15,12 @@ Using the FastAdd API via Android's MacroDroid is a very straightforward task. H
 5. **Add HTTP request action**: Add another action by clicking the plus icon and selecting `HTTP Request`. Choose `POST` method and enter your FastAdd API endpoint URL (`habitica-fastadd.onrender.com/add_task`). Configure the request body (in the `Content Body`) as follows: 
     1. **Content type**: `application/json`
     2. **Content body**: set it to `text`, and in the input box write:
-```json
-{
-    'user_id': YOUR_HABITICA_USER_ID,
-    'api_token': YOUR_HABITICA_API_TOKEN,
-    'text': '{lv=task_text}',
-}
-```.
+    ```json
+    {
+        'user_id': YOUR_HABITICA_USER_ID,
+        'api_token': YOUR_HABITICA_API_TOKEN,
+        'text': '{lv=task_text}',
+    }
 
 6. **Add cleanup action**: Add a final `Set Variable` action to clear the task_text variable by setting it to empty text.
 

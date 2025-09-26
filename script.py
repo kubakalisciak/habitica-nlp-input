@@ -248,7 +248,7 @@ def _extract_date_from_text(text):
     results = search_dates(text, settings={
         'TIMEZONE': 'UTC',
         'RETURN_AS_TIMEZONE_AWARE': False,
-        'RELATIVE_BASE': datetime.datetime.now()
+        'RELATIVE_BASE': datetime.datetime.now(),
         'DATE_ORDER': 'DMY'
     })
     

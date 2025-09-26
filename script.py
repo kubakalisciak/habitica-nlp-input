@@ -245,13 +245,7 @@ def _extract_date_from_text(text):
         dict: {"date": "YYYY-MM-DD" or "", "text": "remaining text"}
     """
     # Use dateparser with proper settings to avoid timezone issues
-    results = search_dates(text, settings={
-        'TIMEZONE': 'UTC',
-        'RETURN_AS_TIMEZONE_AWARE': False,
-        'RELATIVE_BASE': datetime.datetime.now(),
-        'DATE_ORDER': 'DMY',
-        'PREFER_DATES_FROM': 'future',
-    })
+    results = search_dates(text)
     
     if not results:
         return {"date": "", "text": text}

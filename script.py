@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ! TODO: when a date can be written both in DMY and MDY, it defaults to MDY, when i want it to to DMY
 """
 Habitica Natural Language Task Parser
 
@@ -249,7 +249,8 @@ def _extract_date_from_text(text):
         'TIMEZONE': 'UTC',
         'RETURN_AS_TIMEZONE_AWARE': False,
         'RELATIVE_BASE': datetime.datetime.now(),
-        'DATE_ORDER': 'DMY'
+        'DATE_ORDER': 'DMY',
+        'PREFER_DATES_FROM': 'future',
     })
     
     if not results:

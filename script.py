@@ -174,7 +174,7 @@ def _parse_todo_task(task, text):
     task["text"] = final_text
     task["priority"] = difficulty
     if date_info["date"]:
-        task["date"] = date_info["date"]
+        task["date"] = f"{date_info["date"]}T00:00:00.000Z"
 
 def _parse_daily_task(task, text):
     """Parse a daily task - extracts frequency pattern and difficulty."""

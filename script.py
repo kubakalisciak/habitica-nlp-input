@@ -558,10 +558,21 @@ def _remove_frequency_words_from_text(text):
 # API COMMUNICATION
 # =============================================================================
 
-def _check_habitica_connection():
-    """Check if Habitica API is available."""
+def _check_habitica_connection(user_id):
+    """Check if Habitica API is available.
+    
+    Args:
+        user_id (str): Habitica user ID
+        
+    Returns:
+        bool: True if Habitica API is up, False otherwise
+    """
     try:
-        response = requests.get("https://habitica.com/api/v3/status", timeout=5)
+        headers ={
+            'type': 'application/json',
+            'x-client': f"{user_id}-nlpInput"
+        }
+        response = requests.get("https://habitica.com/api/v3/status", timeout=5, headers=headers)
         return response.json().get("data", {}).get("status") == "up"
     except Exception:
         return False

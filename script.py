@@ -62,7 +62,7 @@ def create_task_from_text(user_id, api_token, text):
     Returns:
         dict: Success status and result data or error message
     """
-    if not _check_habitica_connection(user_id):
+    if not _check_habitica_connection():
         return {"success": False, "error": "Habitica API unavailable"}
     
     # Parse the text and build the task
@@ -559,7 +559,7 @@ def _remove_frequency_words_from_text(text):
 # API COMMUNICATION
 # =============================================================================
 
-def _check_habitica_connection(user_id):
+def _check_habitica_connection():
     """Check if Habitica API is available.
     
     Args:
@@ -571,7 +571,7 @@ def _check_habitica_connection(user_id):
     try:
         headers ={
             'type': 'application/json',
-            'x-client': f"{user_id}-nlpInput"
+            'x-client': f"1b016184-1869-4aca-a34a-b30210e3cce2-nlpInput"
         }
         response = requests.get("https://habitica.com/api/v3/status", timeout=5, headers=headers)
         return response.json().get("data", {}).get("status") == "up"

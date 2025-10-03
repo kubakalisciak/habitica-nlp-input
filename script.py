@@ -62,7 +62,7 @@ def create_task_from_text(user_id, api_token, text):
     Returns:
         dict: Success status and result data or error message
     """
-    if not _check_habitica_connection():
+    if not _check_habitica_connection(user_id):
         return {"success": False, "error": "Habitica API unavailable"}
     
     # Parse the text and build the task
@@ -174,7 +174,7 @@ def _parse_todo_task(task, text):
     task["text"] = final_text
     task["priority"] = difficulty
     if date_info["date"]:
-        task["date"] = f"{date_info["date"]}T00:00:00.000Z"
+        task["date"] = f"{date_info['date']}T00:00:00.000Z"
 
 def _parse_daily_task(task, text):
     """Parse a daily task - extracts frequency pattern and difficulty."""
@@ -236,21 +236,22 @@ def _extract_date_from_text(text):
     """
     Extract date information from text using smart date parsing.
     
-    Examples:
-    - "tomorrow" → "2025-08-27"
-    - "next friday" → "2025-08-30" 
-    - "december 25" → "2025-12-25"
-    
     Returns:
         dict: {"date": "YYYY-MM-DD" or "", "text": "remaining text"}
     """
-    # Use dateparser with proper settings to avoid timezone issues
-    results = search_dates(text)
+    # enforce DMY first, prevent MDY fallback
+    results = search_dates(
+        text,
+        settings={
+            "DATE_ORDER": "DMY",
+            "PREFER_DAY_OF_MONTH": "first",
+            "RETURN_AS_TIMEZONE_AWARE": False
+        }
+    )
     
     if not results:
         return {"date": "", "text": text}
     
-    # Take the last (most specific) date found
     date_match, date_obj = results[-1]
     formatted_date = date_obj.strftime("%Y-%m-%d")
     clean_text = text.replace(date_match, "").strip()

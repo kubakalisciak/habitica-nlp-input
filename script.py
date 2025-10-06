@@ -13,9 +13,10 @@ import json
 import sys
 import datetime
 import re
-from dateparser.search import search_dates
-from recurrent import RecurringEvent
-from dateutil.rrule import DAILY, WEEKLY, MONTHLY
+import datetime
+# from dateparser.search import search_dates
+# from recurrent import RecurringEvent
+# from dateutil.rrule import DAILY, WEEKLY, MONTHLY
 
 # =============================================================================
 # MAIN FUNCTIONS
@@ -163,7 +164,7 @@ def _parse_habit_task(task, text):
 
 def _parse_todo_task(task, text):
     """Parse a todo task - extracts due date and difficulty."""
-    # replace "monday" with "2025-08-28" to avoid interpreting weekdays as in the past
+    # replace "monday" with "2025-08-28" to avoid interpreting d.strftime("weekdays as in the past
     text = _replace_weekday_with_date(text)
     # Extract any date information
     date_info = _extract_date_from_text(text)
@@ -260,34 +261,18 @@ def _extract_date_from_text(text):
 
 def _replace_weekday_with_date(text):
     """
-    Replace weekday words with their corresponding date.
+    CURRENTLY NOT FUNCTIONING!!!
+    Replace weekday words with a natural language date.
+    Makes the API work. Don't ask.
     
     Examples:
-    - "monday" → "2025-08-28"
-    - "wednesday" → "2025-08-30"
+    - "monday" → "oct 13"
     
     Returns:
         str: Formatted date string
     """
-    # prevents the bug where "monday" in todos shows up in the past sometimes
-    today = datetime.datetime.now().date()
-    weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-
-    new_words = []
-    for word in text.split():
-        word_lower = word.lower()
-        if word_lower in weekdays:
-            target_weekday = weekdays.index(word_lower)
-            days_ahead = (target_weekday - today.weekday() + 7) % 7
-            if days_ahead == 0:
-                days_ahead = 7  # always pick next week if it’s today
-            next_date = today + datetime.timedelta(days=days_ahead)
-            new_words.append(next_date.strftime("%Y-%m-%d"))
-        else:
-            new_words.append(word)
     
-    # Return the whole text joined with spaces
-    return " ".join(new_words)
+    return text
 
 # =============================================================================
 # FREQUENCY PARSING (MOST COMPLEX PART)
@@ -608,4 +593,4 @@ def _send_task_to_habitica(user_id, api_token, task_data):
 # =============================================================================
 
 if __name__ == "__main__":
-    main()
+    print(_replace_weekday_with_date(input(" >> ")))

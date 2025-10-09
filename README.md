@@ -1,5 +1,3 @@
-Here’s the full README in clean Markdown, ready to use:
-
 # habitica-fastadd
 A lightweight FastAPI service to quickly convert natural language tasks into Habitica tasks. Perfect for fast task capture using mobile automations or scripts, leveraging Habitica’s gamified task management.
 

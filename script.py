@@ -1,4 +1,3 @@
-# ! TODO: when a date can be written both in DMY and MDY, it defaults to MDY, when i want it to to DMY
 """
 Habitica Natural Language Task Parser
 
@@ -14,9 +13,9 @@ import sys
 import datetime
 import re
 import datetime
-# from dateparser.search import search_dates
-# from recurrent import RecurringEvent
-# from dateutil.rrule import DAILY, WEEKLY, MONTHLY
+from dateparser.search import search_dates
+from recurrent import RecurringEvent
+from dateutil.rrule import DAILY, WEEKLY, MONTHLY
 
 # =============================================================================
 # MAIN FUNCTIONS
